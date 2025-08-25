@@ -1,4 +1,4 @@
-# 📘 README Propuesta
+# 📘 Gestion de Tareas y Empleados PHP
 
 ## 📌 Descripción del proyecto
 
