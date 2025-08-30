@@ -27,6 +27,7 @@ class TaskModel{
 
     //metodo para obtener todas las tareas del json
     public static function all(){
+        //SELECT * FROM table
         if(file_exists(self::$file_path)){
             //obteniendo el archivo json
             $data_json = file_get_contents(self::$file_path);
@@ -67,5 +68,6 @@ class TaskModel{
         self::loadJSON($list_tasks);
         return "Se ha guardado correctamente";
     }
+
 
 }
