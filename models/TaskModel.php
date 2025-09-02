@@ -69,5 +69,31 @@ class TaskModel{
         return "Se ha guardado correctamente";
     }
 
+    public static function edit($id_task, $title, $description){
+
+        //iteramos la lista de tareas del json (decodificadas)
+        $list_tasks = self::all();
+        //variable booleana para actualizar una tarea
+        $found_task = false;
+
+        //referencia
+        foreach($list_tasks as &$task){
+            //condicionando si la tarea se encuentra en la lista
+            if($task['id_task'] == $id_task){
+                $found_task = true;
+                $task['title'] = $title;
+                $task['description'] = $description;
+                //hacemos un break para que ya no se iteren las demas tareas
+                break;
+            }
+        }
+
+        //validamos si la tarea se encontro
+        if($found_task){
+            self::loadJSON($list_tasks);
+        }else{
+            return "No se encontro la tarea";
+        }
+    }
 
 }

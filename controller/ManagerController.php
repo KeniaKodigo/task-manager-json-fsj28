@@ -30,7 +30,12 @@ class ManagerController extends EmployeeController implements ICRUDTask{
 
     public static function editTask($id_task, $title, $description)
     {
-        //code..
+        try{
+            TaskModel::edit($id_task, $title, $description);
+            header('Location: ../views/listTasks.php');
+        }catch(Error $error){
+            return "Error al guardar los datos " . $error;
+        }
     }
 }
 
