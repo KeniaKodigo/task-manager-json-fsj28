@@ -1,3 +1,19 @@
+
+<?php
+    //LOS ENCABEZADOS (header de PHP) de preferencia se deben de colocar antes del HTML
+    require_once "../controller/ManagerController.php";
+    $data_tasks = ManagerController::getTask(); //[] (bucle)
+    //editando la tarea
+    if(isset($_POST['id_task'],  $_POST['title'], $_POST['description'])){
+
+        $id = $_POST['id_task'];
+        $title = $_POST['title'];
+        $description = $_POST['description'];
+
+        ManagerController::editTask($id, $title, $description);
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,8 +24,6 @@
 </head>
 <body>
     <?php
-        require_once "../controller/ManagerController.php";
-        $data_tasks = ManagerController::getTask(); //[] (bucle)
         //print_r($data_tasks);
     ?>
     <main class="container">
@@ -34,26 +48,37 @@
                         <td><?php echo $task['status']; ?></td>
                         <td><?php echo $task['id_employee']; ?></td>
                         <td>
-                            <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">Editar</button>
+                            <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ModalEditar<?php echo $task['id_task']; ?>">Editar</button>
                             <button class="btn btn-danger">Cambiar Estado</button>
                         </td>
                     </tr>
 
                     <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="ModalEditar<?php echo $task['id_task']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Actualizando Tarea</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
-                            ...
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
-                        </div>
+                        <form action="" method="POST">
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <!-- input oculto para obtener el id de la tarea -->
+                                    <input type="hidden" name="id_task" value="<?php echo $task['id_task']; ?>">
+                                    <label for="">Titulo</label>
+                                    <input type="text" class="form-control" name="title" value="<?php echo $task['title']; ?>">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="">Descripcion</label>
+                                    <input type="text" class="form-control" name="description" value="<?php echo $task['description']; ?>">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Actualizar Tarea</button>
+                            </div>
+                        </form>
                         </div>
                     </div>
                     </div>

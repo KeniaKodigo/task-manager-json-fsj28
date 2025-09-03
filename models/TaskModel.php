@@ -96,4 +96,26 @@ class TaskModel{
         }
     }
 
+    //metodo que obtenga dicha tarea
+    public static function getById($id_task){
+
+        //iteramos la lista de tareas del json (decodificadas)
+        $list_tasks = self::all();
+
+        $task_id = [];
+        //referencia
+        foreach($list_tasks as $task){
+            //condicionando si la tarea se encuentra en la lista
+            if($task['id_task'] == $id_task){
+                $task_id[] = [
+                    "id_task" => $task['id_task'],
+                    "title" => $task['title'],
+                    "description" => $task['description']
+                ];
+                break;
+            }
+        }
+
+        return $task_id;
+    }
 }

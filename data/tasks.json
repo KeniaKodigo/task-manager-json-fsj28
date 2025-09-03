@@ -9,15 +9,15 @@
     },
     {
         "id_task": 2,
-        "title": "prueba",
-        "description": "probando....",
+        "title": "Editando...",
+        "description": "editando una tarea para ver si funciona",
         "date": "2025-08-28",
         "status": "Pendiente",
         "id_employee": 2
     },
     {
         "id_task": 3,
-        "title": "otra prueba",
+        "title": "Cambio de precios en productos X",
         "description": "haciendo otra prueba",
         "date": "2025-08-28",
         "status": "Pendiente",
