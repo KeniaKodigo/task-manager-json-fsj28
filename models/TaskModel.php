@@ -12,12 +12,8 @@ class TaskModel{
     public $status;
     public $id_employee;
 
-    //atributo para manejar la url del json
-    private static $file_path = '../data/tasks.json';
-
-    public function __construct($id_task, $title, $description, $id_empleyoee)
+    public function __construct($title, $description, $id_empleyoee)
     {
-        $this->id_task = $id_task;
         $this->title = $title;
         $this->description = $description;
         $this->date = date('Y-m-d');
@@ -27,95 +23,40 @@ class TaskModel{
 
     //metodo para obtener todas las tareas del json
     public static function all(){
-        //SELECT * FROM table
-        if(file_exists(self::$file_path)){
-            //obteniendo el archivo json
-            $data_json = file_get_contents(self::$file_path);
-            //print_r($data_json);
-            //json_decode() = convertir tu JSON a un arreglo de PHP - json_encode() = convertir un arreglo de PHP a json
-            //decodificando el json a un arreglo de PHP
-            return json_decode($data_json, true); //arreglo de las tareas
-        }
-
-        return [];
-    }
-
-    //metodo que va cargar el json y lo va actualizar
-    private static function loadJSON($array_tasks){
-        //metodo que nos ayude actualizar el JSON
-        //codificar el arreglo de PHP a un formato de tipo JSON
-        $data_json = json_encode($array_tasks, JSON_PRETTY_PRINT);
-        file_put_contents(self::$file_path, $data_json);
+        //conectandonos a la base de datos
+        $pdo = Connection::getInstance()->getConnection();
+        //haciendo la consulta
+        $query = $pdo->query("SELECT tasks.id, tasks.title, tasks.description, tasks.status, tasks.id_employee, employees.name as employee FROM tasks JOIN employees ON tasks.id_employee = employees.id");
+        //ejecutando la consulta
+        $query->execute();
+        $result = $query->fetchAll(PDO::FETCH_ASSOC); //[]
+        return $result;
     }
 
     //metodo para guardar una tarea
     public function save(){
 
-        $list_tasks = self::all(); //devuelve el arreglo de las tareas que hay en el json
+        $pdo = Connection::getInstance()->getConnection();
+        //preparar la consulta
+        $query = $pdo->prepare("INSERT INTO tasks (title, description, date_task, status, id_employee) VALUES (?, ?, ?, ?, ?)");
+        //pasamos como argumento los valores de los atributos de la clase
+        $result = $query->execute(["$this->title", "$this->description", "$this->date", "$this->status", $this->id_employee]);
 
-        //agregando un nuevo elemento (tarea)
-        //array_push($list_tasks, []);
+        // $query = $pdo->prepare("INSERT INTO tasks (title, description, date_task, status, id_employee) VALUES (:campo1, :campo2, :campo3, :campo4, :campo5)");
+        // $query->bindParam(":campo1", "$this->title");
+        // $query->bindParam(":campo2", "$this->description");
+        // $query->bindParam(":campo3", "$this->date");
+        // $query->bindParam(":campo4", "$this->status");
+        // $query->bindParam(":campo5", $this->id_employee); 
+        // $result = $query->execute();
 
-        $list_tasks[] = [
-            "id_task" => $this->id_task,
-            "title" => $this->title,
-            "description" => $this->description,
-            "date" => $this->date,
-            "status" => $this->status,
-            "id_employee" => $this->id_employee
-        ];
-
-        self::loadJSON($list_tasks);
-        return "Se ha guardado correctamente";
+        return $result;
     }
 
     public static function edit($id_task, $title, $description){
-
-        //iteramos la lista de tareas del json (decodificadas)
-        $list_tasks = self::all();
-        //variable booleana para actualizar una tarea
-        $found_task = false;
-
-        //referencia
-        foreach($list_tasks as &$task){
-            //condicionando si la tarea se encuentra en la lista
-            if($task['id_task'] == $id_task){
-                $found_task = true;
-                $task['title'] = $title;
-                $task['description'] = $description;
-                //hacemos un break para que ya no se iteren las demas tareas
-                break;
-            }
-        }
-
-        //validamos si la tarea se encontro
-        if($found_task){
-            self::loadJSON($list_tasks);
-        }else{
-            return "No se encontro la tarea";
-        }
-    }
-
-    //metodo que obtenga dicha tarea
-    public static function getById($id_task){
-
-        //iteramos la lista de tareas del json (decodificadas)
-        $list_tasks = self::all();
-
-        $task_id = [];
-        //referencia
-        foreach($list_tasks as $task){
-            //condicionando si la tarea se encuentra en la lista
-            if($task['id_task'] == $id_task){
-                $task_id[] = [
-                    "id_task" => $task['id_task'],
-                    "title" => $task['title'],
-                    "description" => $task['description']
-                ];
-                break;
-            }
-        }
-
-        return $task_id;
+        $pdo = Connection::getInstance()->getConnection();
+        $query = $pdo->prepare("UPDATE tasks SET title = ?, description = ? WHERE id = ?");
+        $result = $query->execute(["$title", "$description", $id_task]);
+        return $result;
     }
 }

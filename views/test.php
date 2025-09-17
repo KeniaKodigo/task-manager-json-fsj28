@@ -23,4 +23,4 @@ require_once "../config/database.php";
 
 
 $pdo = Connection::getInstance()->getConnection();
-print_r($pdo);
+print_r($pdo); //objeto de la conexion

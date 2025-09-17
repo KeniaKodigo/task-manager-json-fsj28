@@ -41,20 +41,21 @@
             </thead>
             <tbody>
             <!-- Iterando el arreglo de tareas -->
+            <?php if(count($data_tasks) > 0){ ?>
                 <?php foreach($data_tasks as $task){ ?>
                     <tr>
-                        <td><?php echo $task['id_task']; ?></td>
+                        <td><?php echo $task['id']; ?></td>
                         <td><?php echo $task['title']; ?></td>
                         <td><?php echo $task['status']; ?></td>
-                        <td><?php echo $task['id_employee']; ?></td>
+                        <td><?php echo $task['employee']; ?></td>
                         <td>
-                            <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ModalEditar<?php echo $task['id_task']; ?>">Editar</button>
+                            <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ModalEditar<?php echo $task['id']; ?>">Editar</button>
                             <button class="btn btn-danger">Cambiar Estado</button>
                         </td>
                     </tr>
 
                     <!-- Modal -->
-                    <div class="modal fade" id="ModalEditar<?php echo $task['id_task']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="ModalEditar<?php echo $task['id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                         <div class="modal-header">
@@ -65,7 +66,7 @@
                             <div class="modal-body">
                                 <div class="mb-3">
                                     <!-- input oculto para obtener el id de la tarea -->
-                                    <input type="hidden" name="id_task" value="<?php echo $task['id_task']; ?>">
+                                    <input type="hidden" name="id_task" value="<?php echo $task['id']; ?>">
                                     <label for="">Titulo</label>
                                     <input type="text" class="form-control" name="title" value="<?php echo $task['title']; ?>">
                                 </div>
@@ -83,6 +84,12 @@
                     </div>
                     </div>
                 <?php } ?>
+
+            <?php }else{ ?>
+                <tr>
+                    <td colspan="5">No hay tareas registradas</td>
+                </tr>
+            <?php } ?>
             </tbody>
         </table>
     </main>
