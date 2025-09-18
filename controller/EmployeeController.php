@@ -43,4 +43,14 @@ class EmployeeController {
             return "Error al obtener los empleados: " . $error;
         }
     }
+
+    //metodo para obtener las tareas por empleado
+    public static function getTasksByEmployee(){
+        try{
+            $list_tasks = EmployeeModel::findTasksByEmployee(); 
+            return $list_tasks;
+        }catch(Error $error){
+            return "Error al obtener las tareas del empleado: " . $error;
+        }
+    }
 }
