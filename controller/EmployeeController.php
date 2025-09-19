@@ -1,7 +1,7 @@
 <?php
 
-require_once "../config/database.php";
-require_once "../models/EmployeeModel.php";
+require_once __DIR__ . "/../config/database.php";
+require_once __DIR__ . "/../models/EmployeeModel.php";
 
 # Manejo de los metodos de la clase Empleado
 class EmployeeController {

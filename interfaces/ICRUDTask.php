@@ -1,6 +1,6 @@
 <?php
 
-require_once "../models/TaskModel.php";
+require_once __DIR__ . "/../models/TaskModel.php";
 
 interface ICRUDTask{
     public static function getTask();

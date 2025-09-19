@@ -1,13 +1,14 @@
 <?php 
-    require 'controller/LoginController.php';
-    require 'controller/EmployeeController.php';
+    require_once __DIR__ . "/controller/LoginController.php";
+    require_once __DIR__ . "/controller/ManagerController.php";
+
     session_start();
 
     if(!isset($_SESSION['id_employee'])){
         echo "Acceso denegado";
 
     }else{
-        $data_tasks = EmployeeController::getTasksByEmployee();
+        $data_tasks = ManagerController::getTasksByEmployee();
 ?>
 <!DOCTYPE html>
 <html lang="en">
