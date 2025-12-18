@@ -23,9 +23,6 @@
     <title>Lista Tareas</title>
 </head>
 <body>
-    <?php
-        //print_r($data_tasks);
-    ?>
     <main class="container">
         <h1>Lista de Tareas</h1>
 
