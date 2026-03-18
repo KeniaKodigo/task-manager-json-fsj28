@@ -37,5 +37,15 @@ class ManagerController extends EmployeeController implements ICRUDTask{
             return "Error al guardar los datos " . $error;
         }
     }
+
+    public static function deleteTask($id_task)
+    {
+        try{
+            TaskModel::delete($id_task,);
+            header('Location: ../views/listTasks.php');
+        }catch(Error $error){
+            return "Error al eliminar los datos " . $error;
+        }
+    }
 }
 

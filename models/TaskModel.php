@@ -118,4 +118,17 @@ class TaskModel{
 
         return $task_id;
     }
+
+    //eliminar tarea
+    public static function delete($id){
+        //iteramos la lista de tareas del json (decodificadas)
+        $list_tasks = self::all();
+
+        //Filtrar tareas (eliminar la que coincide con el id)
+        $tasks = array_filter($list_tasks, function($task) use ($id) {
+            return $task['id_task'] != $id;
+        });
+
+        self::loadJSON($tasks);
+    }
 }

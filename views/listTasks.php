@@ -12,6 +12,12 @@
 
         ManagerController::editTask($id, $title, $description);
     }
+
+    //eliminar tarea
+    if(isset($_POST['button_delete'])){
+        $id_task = $_POST['button_delete'];
+        ManagerController::deleteTask($id_task);
+    }
 ?>
 
 <!DOCTYPE html>
@@ -50,6 +56,12 @@
                         <td>
                             <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ModalEditar<?php echo $task['id_task']; ?>">Editar</button>
                             <button class="btn btn-danger">Cambiar Estado</button>
+                            <div>
+                                <form action="" method="post">
+                                    <input type="hidden" name="button_delete" value="<?php echo $task['id_task']; ?>">
+                                    <input type="submit" class="btn btn-success" value="Eliminar">
+                                </form>
+                            </div>
                         </td>
                     </tr>
 
